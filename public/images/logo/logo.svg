@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="154" height="32" viewBox="0 0 360 64" fill="none" role="img" aria-label="MolassesCo logo light">
+  <defs>
+
+
+    <linearGradient id="g-drop-light" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#FFAA2B"/>
+      <stop offset="0.5" stop-color="#B45A00"/>
+      <stop offset="1" stop-color="#522700"/>
+    </linearGradient>
+    <linearGradient id="g-drum-light" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#8B5A2B"/>
+      <stop offset="1" stop-color="#4A2508"/>
+    </linearGradient>
+    <filter id="shadow-light" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25" flood-color="#000"/>
+    </filter>
+  </defs>
+
+  <!-- icon -->
+  <g transform="translate(12,8)" filter="url(#shadow-light)">
+    <!-- drum -->
+    <rect x="0" y="8" rx="6" ry="6" width="48" height="32" fill="url(#g-drum-light)"/>
+    <rect x="-2" y="2" rx="4" ry="4" width="52" height="8" fill="#6B3612"/>
+    <rect x="6" y="16" width="36" height="4" rx="2" ry="2" fill="#C07A3E" opacity="0.3"/>
+    <!-- molasses drop -->
+    <g transform="translate(22,-6)">
+      <path d="M10 0 C4 6, 2 10, 2 14 C2 22, 10 26, 10 26 C10 26, 18 22, 18 14 C18 10, 16 6, 10 0 Z"
+            fill="url(#g-drop-light)"/>
+      <path d="M10 2 C8 5,7 8,8 12 C9 14,11 16,11 16" fill="none" stroke="#FFE3B3" stroke-opacity="0.7" stroke-width="1.2" stroke-linecap="round" />
+      <ellipse cx="10" cy="22.5" rx="1.8" ry="2.6" fill="#3B1E00" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <g transform="translate(84,42)">
+    <text x="0" y="0" font-family="Inter, Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif"
+          font-weight="700" font-size="28" fill="#222222" letter-spacing="0.5">
+      MolassesCo
+    </text>
+  </g>
+</svg>
