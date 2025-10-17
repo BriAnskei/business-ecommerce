@@ -1,5 +1,6 @@
 import Carousel from "../../components/Carousel/Carousel";
 import PageMeta from "../../components/common/PageMeta";
+import FeaturedProducts from "./FeaturedProducts";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       {/* Content section with padding */}
       <div className="p-4 mx-auto max-w-6xl md:p-6">
         {/* Your other home page content goes here */}
-        <h2>Featured Products</h2>
+        <FeaturedProducts />
         {/* ... */}
       </div>
     </>

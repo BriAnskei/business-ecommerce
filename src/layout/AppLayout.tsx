@@ -1,10 +1,9 @@
-import { SidebarProvider, useSidebar } from "../context/SidebarContext";
+import { SidebarProvider } from "../context/SidebarContext";
 import { Outlet } from "react-router";
 import AppHeader from "./AppHeader";
-import Backdrop from "./Backdrop";
-import AppSidebar from "./AppSidebar";
 import { useState } from "react";
 import CartSidebar from "./CartSidebar";
+import AppFooter from "./AppFooter";
 
 const LayoutContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -13,6 +12,8 @@ const LayoutContent: React.FC = () => {
     <div className="min-h-screen ">
       <AppHeader openCartSideBar={() => setIsCartOpen(true)} />
       <Outlet />
+      <AppFooter />
+
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
