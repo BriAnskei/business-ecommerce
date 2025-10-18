@@ -6,37 +6,6 @@ const AppFooter = () => {
 
   return (
     <footer className="bg-amber-900 text-amber-50 mt-auto">
-      {/* Newsletter Section */}
-      <div className="border-b border-amber-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-center md:text-left">
-              <h3 className="text-lg font-bold mb-1">
-                Stay Updated with PureMolasses
-              </h3>
-              <p className="text-amber-200 text-sm">
-                Get exclusive deals and product updates
-              </p>
-            </div>
-            <div className="flex w-full md:w-auto gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 md:w-64 px-4 py-2.5 rounded-lg bg-amber-800 
-                text-amber-50 placeholder-amber-300 border border-amber-700 
-                focus:outline-none focus:ring-2 focus:ring-amber-600"
-              />
-              <button
-                className="px-6 py-2.5 bg-amber-700 hover:bg-amber-600 
-                rounded-lg font-semibold transition-colors whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Footer Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

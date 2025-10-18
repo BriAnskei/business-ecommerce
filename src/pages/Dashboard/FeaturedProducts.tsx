@@ -80,8 +80,16 @@ const FeaturedProducts = () => {
     }
   };
 
-  const getProductImage = (type: any) => {
-    const colors = {
+  type Colors = {
+    container: string;
+    gallon: string;
+    drum: string;
+    liter: string;
+    ton: string;
+  };
+
+  const getProductImage = (type: keyof Colors) => {
+    const colors: Colors = {
       container: "from-amber-600 to-amber-800",
       gallon: "from-amber-700 to-amber-900",
       drum: "from-amber-800 to-yellow-900",
@@ -91,7 +99,8 @@ const FeaturedProducts = () => {
 
     return (
       <div
-        className={`w-full h-full bg-gradient-to-br ${colors[type]} flex items-center justify-center relative overflow-hidden`}
+        className={`w-full h-full bg-gradient-to-br ${colors[type]} flex 
+        items-center justify-center relative overflow-hidden`}
       >
         {/* Decorative circles */}
         <div className="absolute top-4 right-4 w-20 h-20 bg-white/10 rounded-full"></div>
@@ -158,14 +167,23 @@ const FeaturedProducts = () => {
   };
 
   return (
-    <div className="w-full bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+    <div
+      className="w-full bg-gradient-to-b from-amber-50 to-white 
+    dark:from-gray-900 dark:to-gray-800 py-12 px-4"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
-          <p className="text-amber-700 dark:text-amber-400 text-sm font-semibold uppercase tracking-wide mb-2">
+          <p
+            className="text-amber-700 dark:text-amber-400 text-sm f
+          ont-semibold uppercase tracking-wide mb-2"
+          >
             Premium Selection
           </p>
-          <h2 className="text-4xl font-bold text-amber-900 dark:text-amber-100">
+          <h2
+            className="text-4xl font-bold text-amber-900 
+          dark:text-amber-100"
+          >
             Featured Products
           </h2>
         </div>
@@ -175,7 +193,10 @@ const FeaturedProducts = () => {
           {/* Navigation Buttons */}
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors hidden md:block"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4
+             z-10 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg 
+             hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors
+              hidden md:block"
             aria-label="Previous products"
           >
             <ChevronLeft className="w-6 h-6 text-amber-900 dark:text-amber-100" />
@@ -183,43 +204,73 @@ const FeaturedProducts = () => {
 
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors hidden md:block"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 
+            z-10 bg-white dark:bg-gray-800 p-3 rounded-full shadow-lg 
+            hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors 
+            hidden md:block"
             aria-label="Next products"
           >
-            <ChevronRight className="w-6 h-6 text-amber-900 dark:text-amber-100" />
+            <ChevronRight
+              className="w-6 h-6 text-amber-900 
+            dark:text-amber-100"
+            />
           </button>
 
           {/* Products Container */}
           <div
             id="products-container"
-            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-4"
+            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x 
+            snap-mandatory scroll-smooth pb-4"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[280px] lg:w-[300px] snap-center"
+                className="flex-shrink-0 w-[75%] sm:w-[45%] md:w-[280px] 
+                lg:w-[300px] snap-center"
               >
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
+                <div
+                  className="bg-white dark:bg-gray-800 rounded-xl 
+                shadow-lg overflow-hidden hover:shadow-xl transition-shadow 
+                duration-300 h-full flex flex-col"
+                >
                   {/* Image Container */}
-                  <div className="relative h-72 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-gray-700 dark:to-gray-600">
-                    {getProductImage(product.image)}
+                  <div
+                    className="relative h-72 bg-gradient-to-br 
+                  from-amber-100 to-amber-200 dark:from-gray-700
+                   dark:to-gray-600"
+                  >
+                    {getProductImage(product.image as keyof Colors)}
 
                     {/* Badges */}
                     <div className="absolute top-4 left-4 flex gap-2">
                       {product.isNew && (
-                        <span className="bg-white text-amber-900 px-3 py-1 rounded-full text-xs font-bold uppercase shadow-md">
+                        <span
+                          className="bg-white text-amber-900 px-3 py-1 r
+                        ounded-full text-xs font-bold uppercase shadow-md"
+                        >
                           New
                         </span>
                       )}
-                      <span className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
+                      <span
+                        className="bg-red-600 text-white px-3 py-1 
+                      rounded-full text-xs font-bold shadow-md"
+                      >
                         -{product.discount}%
                       </span>
                     </div>
 
                     {/* Quick View Button */}
-                    <button className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center group">
-                      <span className="bg-white text-amber-900 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transform scale-90 group-hover:scale-100 transition-transform">
+                    <button
+                      className="absolute inset-0 bg-black/40 opacity-0 
+                    hover:opacity-100 transition-opacity duration-300 flex 
+                    items-center justify-center group"
+                    >
+                      <span
+                        className="bg-white text-amber-900 px-6 py-3 
+                      rounded-lg font-semibold flex items-center gap-2 transform
+                       scale-90 group-hover:scale-100 transition-transform"
+                      >
                         <Eye className="w-5 h-5" />
                         Quick View
                       </span>
@@ -230,18 +281,29 @@ const FeaturedProducts = () => {
                   <div className="p-6 flex flex-col flex-grow">
                     {/* Unit Badge */}
                     <div className="mb-3">
-                      <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-300 px-3 py-1 rounded-full text-xs font-semibold">
+                      <span
+                        className="inline-block bg-amber-100 
+                      dark:bg-amber-900/30 text-amber-900 
+                      dark:text-amber-300 px-3 py-1 rounded-full text-xs
+                       font-semibold"
+                      >
                         {product.unit}
                       </span>
                     </div>
 
                     {/* Product Name */}
-                    <h3 className="text-xl font-bold text-amber-900 dark:text-amber-100 mb-2">
+                    <h3
+                      className="text-xl font-bold text-amber-900 
+                    dark:text-amber-100 mb-2"
+                    >
                       {product.name}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow line-clamp-2">
+                    <p
+                      className="text-sm text-gray-600 dark:text-gray-400 
+                    mb-4 flex-grow line-clamp-2"
+                    >
                       {product.description}
                     </p>
 
@@ -249,16 +311,27 @@ const FeaturedProducts = () => {
                     <div className="flex items-end justify-between mt-auto">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-gray-500 dark:text-gray-400 line-through text-sm">
+                          <span
+                            className="text-gray-500 dark:text-gray-400
+                           line-through text-sm"
+                          >
                             ₱{product.originalPrice.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-3xl font-bold text-amber-900 dark:text-amber-100">
+                        <div
+                          className="text-3xl font-bold text-amber-900 
+                        dark:text-amber-100"
+                        >
                           ₱{product.salePrice.toLocaleString()}
                         </div>
                       </div>
 
-                      <button className="bg-amber-900 hover:bg-amber-800 dark:bg-amber-700 dark:hover:bg-amber-600 text-white px-5 py-2 rounded-lg font-semibold transition-colors duration-200 shadow-md">
+                      <button
+                        className="bg-amber-900 hover:bg-amber-800 
+                      dark:bg-amber-700 dark:hover:bg-amber-600 text-white
+                       px-5 py-2 rounded-lg font-semibold transition-colors 
+                       duration-200 shadow-md"
+                      >
                         Add to Cart
                       </button>
                     </div>
