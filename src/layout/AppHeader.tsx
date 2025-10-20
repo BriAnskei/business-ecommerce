@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SearchModal from "../components/modals/SearchModal";
-import AuthModal from "../components/modals/AuthModal";
 import UserDropdown from "../components/header/UserDropdown";
-import { SearchIcon } from "lucide-react";
+import { MessageCircleIcon, SearchIcon } from "lucide-react";
 import { CartIcon } from "../icons";
+import { useScrollRef } from "../context/ScrollRefContext";
+import ChatWindow from "../components/window/ChatWindow";
 
 interface AppHeaderProp {
   openCartSideBar: () => void;
@@ -15,7 +16,7 @@ const AppHeader: React.FC<AppHeaderProp> = ({ openCartSideBar }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState("home");
-  const [isAuthenticated] = useState(false); // Replace with actual auth state
+  const [isChatWindowOpen, setIsChatWindowOpen] = useState(false);
 
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
@@ -26,27 +27,27 @@ const AppHeader: React.FC<AppHeaderProp> = ({ openCartSideBar }) => {
       <TopInfoBar />
       <header
         className="sticky top-0 flex w-full bg-white border-b-2
-       border-amber-100 z-50 dark:border-gray-800 dark:bg-gray-900 
-       shadow-sm"
+        border-amber-100 z-50 dark:border-gray-800 dark:bg-gray-900 
+        shadow-sm"
       >
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             className="flex flex-col items-center justify-between 
-          lg:flex-row lg:gap-8"
+            lg:flex-row lg:gap-8"
           >
             {/* Logo Section */}
             <div
               className="flex items-center justify-between w-full gap-2 py-3 
-            border-b border-amber-100 dark:border-gray-800 
-            sm:gap-4 lg:justify-normal lg:border-b-0 lg:py-4 lg:w-auto"
+              border-b border-amber-100 dark:border-gray-800 
+              sm:gap-4 lg:justify-normal lg:border-b-0 lg:py-4 lg:w-auto"
             >
               <Logo />
 
               <button
                 onClick={toggleApplicationMenu}
                 className="flex items-center justify-center w-10 h-10 
-                text-amber-900 rounded-lg z-50 hover:bg-amber-50
-                 dark:text-amber-100 dark:hover:bg-gray-800 lg:hidden"
+                  text-amber-900 rounded-lg z-50 hover:bg-amber-50
+                  dark:text-amber-100 dark:hover:bg-gray-800 lg:hidden"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
@@ -64,58 +65,12 @@ const AppHeader: React.FC<AppHeaderProp> = ({ openCartSideBar }) => {
               setActiveMenu={setActiveMenu}
             />
 
-            {/* Right Side Actions */}
-            <div
-              className={`${
-                isApplicationMenuOpen ? "flex" : "hidden"
-              } justify-between items-center w-full gap-4 py-4 shadow-lg 
-              lg:flex lg:w-auto lg:gap-4 lg:py-0 lg:shadow-none transition-all`}
-            >
-              {/* Action buttons */}
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setIsSearchModalOpen(true)}
-                  className="flex items-center justify-center w-10 h-10
-                   text-amber-900 dark:text-amber-100 hover:bg-amber-50
-                    dark:hover:bg-gray-800 rounded-lg transition-colors"
-                  aria-label="Search"
-                >
-                  <SearchIcon className="w-5 h-5" />
-                </button>
-
-                <button
-                  className="flex items-center justify-center w-10 h-10
-                   text-amber-900 dark:text-amber-100 hover:bg-amber-50
-                    dark:hover:bg-gray-800 rounded-lg 
-                    transition-colors relative"
-                  aria-label="Cart"
-                  onClick={openCartSideBar}
-                >
-                  <CartIcon className="w-5 h-5" />
-                  <span
-                    className="absolute -top-1 -right-1 bg-amber-900
-                   text-white text-xs rounded-full w-5 h-5 flex items-center 
-                   justify-center font-bold"
-                  >
-                    0
-                  </span>
-                </button>
-
-                {true ? (
-                  <UserDropdown />
-                ) : (
-                  <button
-                    onClick={() => setIsAuthModalOpen(true)}
-                    className="bg-amber-900 text-white hover:bg-amber-800
-                     dark:bg-amber-700 dark:hover:bg-amber-600 rounded-lg
-                      px-5 py-2 text-sm font-semibold transition-colors
-                       duration-200 shadow-sm"
-                  >
-                    Sign In
-                  </button>
-                )}
-              </div>
-            </div>
+            <RightSideAction
+              openChatWindow={() => setIsChatWindowOpen(true)}
+              isApplicationMenuOpen={isApplicationMenuOpen}
+              setIsSearchModalOpen={setIsSearchModalOpen}
+              openCartSideBar={openCartSideBar}
+            />
           </div>
         </div>
 
@@ -127,11 +82,11 @@ const AppHeader: React.FC<AppHeaderProp> = ({ openCartSideBar }) => {
         />
       </header>
 
-      <HeaderModals
-        isAuthModalOpen={isAuthModalOpen}
+      <HeaderPopUpComponents
+        isChatWindowOpen={isChatWindowOpen}
         isSearchModalOpen={isSearchModalOpen}
         closeSearchModal={() => setIsSearchModalOpen(false)}
-        closeAuthModal={() => setIsAuthModalOpen(false)}
+        closeChatWindow={() => setIsChatWindowOpen(false)}
       />
     </>
   );
@@ -141,18 +96,18 @@ const TopInfoBar = () => {
   return (
     <div className="bg-amber-900 text-amber-50 py-2 text-center text-sm overflow-hidden">
       <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee {
-          display: flex;
-          animation: marquee 20s linear infinite;
-        }
-        .marquee:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee {
+            display: flex;
+            animation: marquee 20s linear infinite;
+          }
+          .marquee:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
 
       <div className="marquee">
         {/* Duplicate content for seamless loop */}
@@ -189,34 +144,18 @@ const Logo = () => {
     <Link to="/" className="flex items-center gap-3">
       <div className="flex items-center gap-2">
         {/* Molasses Drop Icon */}
-        <div
-          className="w-10 h-10 bg-gradient-to-br from-amber-700 
-        to-amber-900 rounded-full flex items-center justify-center shadow-md"
-        >
-          <svg
-            className="w-6 h-6 text-amber-100"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707
-               9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 
-               0 00-1.414-1.414L11 10.586V7z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
+        <img className="w-10 h-10" src="./images/logo/logo.svg" />
+
         <div>
           <div
             className="text-xl font-bold text-amber-900 
-          dark:text-amber-100"
+            dark:text-amber-100"
           >
             PureMolasses
           </div>
           <div
             className="text-xs text-amber-700 
-          dark:text-amber-300 -mt-1"
+            dark:text-amber-300 -mt-1"
           >
             Traditional Filipino Quality
           </div>
@@ -233,6 +172,29 @@ const Navigations = ({
   activeMenu: string;
   setActiveMenu: (prev: string) => void;
 }) => {
+  const navigate = useNavigate();
+  const { featuredRef, aboutUsRef, scrollIntoView } = useScrollRef();
+
+  const handlerScrollOnView = (onView: "featured" | "about") => {
+    navigate("/");
+
+    setTimeout(() => {
+      switch (onView) {
+        case "featured":
+          scrollIntoView(featuredRef);
+          setActiveMenu("featured");
+          break;
+        case "about":
+          scrollIntoView(aboutUsRef);
+          setActiveMenu("about");
+          break;
+
+        default:
+          return onView;
+      }
+    }, 500);
+  };
+
   return (
     <>
       <nav className="hidden lg:flex lg:flex-1 lg:justify-center">
@@ -242,21 +204,41 @@ const Navigations = ({
               to="/"
               onClick={() => setActiveMenu("home")}
               className={`text-sm font-semibold transition-colors relative 
-                pb-1 ${
-                  activeMenu === "home"
-                    ? "text-amber-900 dark:text-amber-300"
-                    : "text-gray-600 hover:text-amber-800 dark:text-gray-400 dark:hover:text-amber-300"
-                }`}
+                  pb-1 ${
+                    activeMenu === "home"
+                      ? "text-amber-900 dark:text-amber-300"
+                      : "text-gray-600 hover:text-amber-800 dark:text-gray-400 dark:hover:text-amber-300"
+                  }`}
             >
               Home
               {activeMenu === "home" && (
                 <span
                   className="absolute bottom-0 left-0 w-full h-0.5
-                 bg-amber-900 dark:bg-amber-300"
+                  bg-amber-900 dark:bg-amber-300"
                 ></span>
               )}
             </Link>
           </li>
+
+          <li>
+            <span
+              onClick={() => handlerScrollOnView("featured")}
+              className={`text-sm font-semibold transition-colors relative pb-1 ${
+                activeMenu === "featured"
+                  ? "text-amber-900 dark:text-amber-300"
+                  : "text-gray-600 hover:text-amber-800 dark:text-gray-400 dark:hover:text-amber-300"
+              }`}
+            >
+              Featured
+              {activeMenu === "featured" && (
+                <span
+                  className="absolute bottom-0 left-0 w-full h-0.5
+                  bg-amber-900 dark:bg-amber-300"
+                ></span>
+              )}
+            </span>
+          </li>
+
           <li>
             <Link
               to="/products"
@@ -271,26 +253,26 @@ const Navigations = ({
               {activeMenu === "products" && (
                 <span
                   className="absolute bottom-0 left-0 w-full h-0.5
-                 bg-amber-900 dark:bg-amber-300"
+                  bg-amber-900 dark:bg-amber-300"
                 ></span>
               )}
             </Link>
           </li>
+
           <li>
-            <Link
-              to="/contact"
-              onClick={() => setActiveMenu("contact")}
+            <span
+              onClick={() => handlerScrollOnView("about")}
               className={`text-sm font-semibold transition-colors relative pb-1 ${
-                activeMenu === "contact"
+                activeMenu === "about"
                   ? "text-amber-900 dark:text-amber-300"
                   : "text-gray-600 hover:text-amber-800 dark:text-gray-400 dark:hover:text-amber-300"
               }`}
             >
-              Contact Us
-              {activeMenu === "contact" && (
+              About us
+              {activeMenu === "about" && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-900 dark:bg-amber-300"></span>
               )}
-            </Link>
+            </span>
           </li>
         </ul>
       </nav>
@@ -372,21 +354,104 @@ const NavigationMobile = ({
   );
 };
 
-const HeaderModals = ({
+const RightSideAction = ({
+  isApplicationMenuOpen,
+  setIsSearchModalOpen,
+  openCartSideBar,
+  openChatWindow,
+}: {
+  isApplicationMenuOpen: boolean;
+  setIsSearchModalOpen: (param: boolean) => void;
+  openCartSideBar: () => void;
+  openChatWindow: () => void;
+}) => {
+  return (
+    <div
+      className={`${
+        isApplicationMenuOpen ? "flex" : "hidden"
+      } justify-between items-center w-full gap-4 py-4 shadow-lg 
+                lg:flex lg:w-auto lg:gap-4 lg:py-0 lg:shadow-none transition-all`}
+    >
+      {/* Action buttons */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setIsSearchModalOpen(true)}
+          className="flex items-center justify-center w-10 h-10
+                    text-amber-900 dark:text-amber-100 hover:bg-amber-50
+                      dark:hover:bg-gray-800 rounded-lg transition-colors"
+          aria-label="Search"
+        >
+          <SearchIcon className="w-5 h-5" />
+        </button>
+
+        <button
+          className="flex items-center justify-center w-10 h-10
+                    text-amber-900 dark:text-amber-100 hover:bg-amber-50
+                      dark:hover:bg-gray-800 rounded-lg 
+                      transition-colors relative"
+          aria-label="Messages"
+          onClick={openChatWindow}
+        >
+          <MessageCircleIcon className="w-5 h-5" />
+          <span
+            className="absolute -top-1 -right-1 bg-amber-900
+                    text-white text-xs rounded-full w-5 h-5 flex items-center 
+                    justify-center font-bold"
+          >
+            3
+          </span>
+        </button>
+
+        <button
+          className="flex items-center justify-center w-10 h-10
+                    text-amber-900 dark:text-amber-100 hover:bg-amber-50
+                      dark:hover:bg-gray-800 rounded-lg 
+                      transition-colors relative"
+          aria-label="Cart"
+          onClick={openCartSideBar}
+        >
+          <CartIcon className="w-5 h-5" />
+          <span
+            className="absolute -top-1 -right-1 bg-amber-900
+                    text-white text-xs rounded-full w-5 h-5 flex items-center 
+                    justify-center font-bold"
+          >
+            0
+          </span>
+        </button>
+
+        {true ? (
+          <UserDropdown />
+        ) : (
+          <button
+            className="bg-amber-900 text-white hover:bg-amber-800
+                      dark:bg-amber-700 dark:hover:bg-amber-600 rounded-lg
+                        px-5 py-2 text-sm font-semibold transition-colors
+                        duration-200 shadow-sm"
+          >
+            Sign In
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const HeaderPopUpComponents = ({
   isSearchModalOpen,
-  isAuthModalOpen,
-  closeAuthModal,
+  isChatWindowOpen,
+  closeChatWindow,
   closeSearchModal,
 }: {
-  isAuthModalOpen: boolean;
+  isChatWindowOpen: boolean;
   isSearchModalOpen: boolean;
   closeSearchModal: () => void;
-  closeAuthModal: () => void;
+  closeChatWindow: () => void;
 }) => {
   return (
     <>
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal} />
-      <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
+      <ChatWindow isOpen={isChatWindowOpen} onClose={closeChatWindow} />
     </>
   );
 };

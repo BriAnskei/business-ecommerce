@@ -13,11 +13,9 @@ export default function Home() {
       {/* Full-width carousel */}
       <Carousel />
 
-      {/* Content section with padding */}
+      {/* Content section  */}
       <div className="p-4 mx-auto max-w-6xl md:p-6">
-        {/* Your other home page content goes here */}
         <FeaturedProducts />
-        {/* ... */}
       </div>
     </>
   );

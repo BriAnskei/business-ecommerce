@@ -1,13 +1,18 @@
 import { Mail, Phone, MapPin, Link } from "lucide-react";
 import { SiFacebook, SiInstagram } from "react-icons/si";
+import { useScrollRef } from "../context/ScrollRefContext";
 
 const AppFooter = () => {
+  const { aboutUsRef } = useScrollRef();
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-amber-900 text-amber-50 mt-auto">
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div
+        ref={aboutUsRef}
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Brand Section */}
           <div className="space-y-4">

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { useScrollRef } from "../../context/ScrollRefContext";
 
 const FeaturedProducts = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const { featuredRef } = useScrollRef();
 
   const products = [
     {
@@ -153,13 +155,20 @@ const FeaturedProducts = () => {
               fill="currentColor"
               viewBox="0 0 24 24"
             >
-              <path d="M20 6h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 4h6v2H9V4zm11 15H4V8h16v11z" />
+              <path
+                d="M20 6h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 
+              .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 
+              4h6v2H9V4zm11 15H4V8h16v11z"
+              />
             </svg>
           )}
         </div>
 
         {/* Product label */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 px-4 py-1 rounded-full">
+        <div
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 
+        bg-white/90 px-4 py-1 rounded-full"
+        >
           <span className="text-xs font-bold text-amber-900">PureMolasses</span>
         </div>
       </div>
@@ -170,6 +179,7 @@ const FeaturedProducts = () => {
     <div
       className="w-full bg-gradient-to-b from-amber-50 to-white 
     dark:from-gray-900 dark:to-gray-800 py-12 px-4"
+      ref={featuredRef}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}

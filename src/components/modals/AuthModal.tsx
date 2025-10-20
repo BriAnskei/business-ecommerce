@@ -40,10 +40,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
     rememberMe: false,
   });
 
-  useEffect(() => {
-    console.log("input update: ", formData);
-  }, [formData]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSubmit) {

@@ -232,7 +232,7 @@ const AllProducts = () => {
 
   return (
     <div className="w-full bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
           <p className="text-amber-700 dark:text-amber-400 text-sm font-semibold uppercase tracking-wide mb-2">
