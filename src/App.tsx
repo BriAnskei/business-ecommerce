@@ -6,8 +6,10 @@ import Home from "./pages/Dashboard/Home";
 import AllProducts from "./pages/products/AllProducts";
 
 import { SignUp } from "./pages/AuthPages/SignUp";
-import SignUpPage from "./pages/AuthPages/SiginIn";
+
 import MessagePage from "./pages/Messages/MessagePage";
+import { SignIn } from "./pages/AuthPages/SignIn";
+import ThemeTogglerIcon from "./components/common/ThemeTogglerIcon";
 
 export default function App() {
   return (
@@ -22,7 +24,7 @@ export default function App() {
             <Route index path="/message" element={<MessagePage />} />
           </Route>
 
-          <Route path="/signin" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
 
           {/* Fallback Route */}

@@ -1,19 +1,21 @@
 import AuthLayout from "./AuthLayout";
-import SignUpForm from "../../components/auth/SignUpForm";
-import SocialAuth from "./SocialAuth";
-import useSignUpValidation from "../../hooks/auth/useSignUpValidation";
 
-export const SignUp = () => {
+import SocialAuth from "./SocialAuth";
+import SignInForm from "../../components/auth/SignInForm";
+
+import useSignInValidation from "../../hooks/auth/useSignInValidation";
+
+export const SignIn = () => {
   const {
-    SignUpInput,
+    signInForm,
     showPassword,
-    onSignIn,
+    onSignUp,
     onChangeHandler,
     toggleRememberMe,
     toggleShowPassword,
     onSubmit,
-    handleSocialSignUp,
-  } = useSignUpValidation();
+    handleSocialLogin,
+  } = useSignInValidation();
 
   return (
     <AuthLayout>
@@ -22,12 +24,12 @@ export const SignUp = () => {
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-amber-900 dark:text-amber-100">
-            Sign up now
+            Sign in now
           </h2>
         </div>
 
-        {/* Provider Buttons */}
-        <SocialAuth handleSocialLogin={handleSocialSignUp} />
+        {/* Social Buttons */}
+        <SocialAuth handleSocialLogin={handleSocialLogin} />
         {/* Divider */}
         <div className="mb-6 flex items-center">
           <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800"></div>
@@ -41,14 +43,14 @@ export const SignUp = () => {
         </div>
         {/* form */}
         <div className="space-y-4">
-          <SignUpForm
-            SignUpInput={SignUpInput}
-            showPassword={showPassword}
-            onSignIn={onSignIn}
-            onChangeHandler={onChangeHandler}
-            toggleRememberMe={toggleRememberMe}
-            toggleShowPassword={toggleShowPassword}
+          <SignInForm
             onSubmit={onSubmit}
+            onChangeHandler={onChangeHandler}
+            onSignUp={onSignUp}
+            signInInput={signInForm}
+            showPassword={showPassword}
+            toggleShowPassword={toggleShowPassword}
+            toggleRememberMe={toggleRememberMe}
           />
         </div>
       </div>
