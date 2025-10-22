@@ -7,15 +7,18 @@ import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 import { ScrollRefProvider } from "./context/ScrollRefContext.tsx";
+import { UserContextProvider } from "./context/UserContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
-      <ScrollRefProvider>
-        <AppWrapper>
-          <App />
-        </AppWrapper>
-      </ScrollRefProvider>
-    </ThemeProvider>
+    <UserContextProvider>
+      <ThemeProvider>
+        <ScrollRefProvider>
+          <AppWrapper>
+            <App />
+          </AppWrapper>
+        </ScrollRefProvider>
+      </ThemeProvider>
+    </UserContextProvider>
   </StrictMode>
 );

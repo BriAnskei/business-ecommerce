@@ -52,4 +52,29 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
+export const Divider = () => {
+  return (
+    <div className="mb-6 flex items-center">
+      <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800"></div>
+      <span
+        className="px-4 text-sm text-amber-700 dark:text-amber-300 
+          font-medium"
+      >
+        Or continue with email
+      </span>
+      <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800"></div>
+    </div>
+  );
+};
+
+export const Header = ({ HeaderText }: { HeaderText: string }) => {
+  return (
+    <div className="mb-6 text-center">
+      <h2 className="text-3xl font-bold text-amber-900 dark:text-amber-100">
+        {HeaderText}
+      </h2>
+    </div>
+  );
+};
+
 export default AuthLayout;

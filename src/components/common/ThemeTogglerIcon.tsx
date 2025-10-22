@@ -5,7 +5,7 @@ interface ThemeTogglerIconProp {
 }
 
 export default function ThemeTogglerIcon({
-  claseName = "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-amber-900 dark:bg-amber-700 text-amber-50 hover:bg-amber-800 dark:hover:bg-amber-600 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 flex items-center justify-center",
+  claseName = "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-amber-900 dark:bg-amber-700 text-amber-50 hover:bg-amber-800 dark:hover:bg-amber-600 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 flex items-center justify-center  ",
 }: ThemeTogglerIconProp) {
   const { toggleTheme } = useTheme();
   return (

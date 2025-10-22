@@ -1,8 +1,6 @@
-import AuthLayout from "./AuthLayout";
-
+import AuthLayout, { Divider, Header } from "./AuthLayout";
 import SocialAuth from "./SocialAuth";
 import SignInForm from "../../components/auth/SignInForm";
-
 import useSignInValidation from "../../hooks/auth/useSignInValidation";
 
 export const SignIn = () => {
@@ -21,26 +19,12 @@ export const SignIn = () => {
     <AuthLayout>
       {/* Card Content */}
       <div className="px-8 pt-8">
-        {/* Header */}
-        <div className="mb-6 text-center">
-          <h2 className="text-3xl font-bold text-amber-900 dark:text-amber-100">
-            Sign in now
-          </h2>
-        </div>
+        <Header HeaderText="Sign in now" />
 
         {/* Social Buttons */}
         <SocialAuth handleSocialLogin={handleSocialLogin} />
         {/* Divider */}
-        <div className="mb-6 flex items-center">
-          <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800"></div>
-          <span
-            className="px-4 text-sm text-amber-700 dark:text-amber-300 
-          font-medium"
-          >
-            Or continue with email
-          </span>
-          <div className="h-px flex-1 bg-amber-200 dark:bg-amber-800"></div>
-        </div>
+        <Divider />
         {/* form */}
         <div className="space-y-4">
           <SignInForm

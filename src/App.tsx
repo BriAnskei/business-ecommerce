@@ -9,7 +9,6 @@ import { SignUp } from "./pages/AuthPages/SignUp";
 
 import MessagePage from "./pages/Messages/MessagePage";
 import { SignIn } from "./pages/AuthPages/SignIn";
-import ThemeTogglerIcon from "./components/common/ThemeTogglerIcon";
 
 export default function App() {
   return (

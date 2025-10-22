@@ -1,14 +1,14 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
-
 import { createChangeHandler } from "../../utils/onChangeHanlder";
-import { FormData } from "./autTypes";
-
-export interface SignInInput extends Omit<FormData, "name"> {}
+import { useUserContext } from "../../context/UserContext";
+import { SignInFormInput } from "./autTypes";
 
 const useSignInValidation = () => {
   const navigate = useNavigate();
-  const [signInForm, setSignInForm] = useState<SignInInput>({
+  const { handleSingin, handleProvider } = useUserContext();
+
+  const [signInForm, setSignInForm] = useState<SignInFormInput>({
     email: "",
     password: "",
     rememberMe: false,
@@ -20,7 +20,7 @@ const useSignInValidation = () => {
   }, [navigate]);
 
   const onChangeHandler = useCallback(
-    createChangeHandler<SignInInput>(setSignInForm),
+    createChangeHandler<SignInFormInput>(setSignInForm),
     []
   );
 
@@ -33,10 +33,12 @@ const useSignInValidation = () => {
   }, []);
 
   const onSubmit = useCallback(async () => {
-    console.log("onsubmit: ", signInForm);
+    await handleSingin(signInForm);
   }, [signInForm]);
 
-  const handleSocialLogin = (povider: "google" | "facebook") => {};
+  const handleSocialLogin = (provider: "google" | "facebook") => {
+    handleProvider("signin", provider);
+  };
 
   return {
     signInForm,

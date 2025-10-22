@@ -2,11 +2,13 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { createChangeHandler } from "../../utils/onChangeHanlder";
-import { FormData } from "./autTypes";
+import { useUserContext } from "../../context/UserContext";
+import { SignUpFormInput } from "./autTypes";
 
 const useSignUpValidation = () => {
+  const { handleProvider, handleSignUp } = useUserContext();
   const navigate = useNavigate();
-  const [SignUpInput, setSignUpInput] = useState<FormData>({
+  const [SignUpInput, setSignUpInput] = useState<SignUpFormInput>({
     name: "",
     email: "",
     password: "",
@@ -19,7 +21,7 @@ const useSignUpValidation = () => {
   }, [navigate]);
 
   const onChangeHandler = useCallback(
-    createChangeHandler<FormData>(setSignUpInput),
+    createChangeHandler<SignUpFormInput>(setSignUpInput),
     []
   );
 
@@ -32,10 +34,12 @@ const useSignUpValidation = () => {
   }, []);
 
   const onSubmit = useCallback(async () => {
-    console.log("onsubmit: ", SignUpInput);
+    await handleSignUp(SignUpInput);
   }, [SignUpInput]);
 
-  const handleSocialSignUp = (povider: "google" | "facebook") => {};
+  const handleSocialSignUp = async (povider: "google" | "facebook") => {
+    await handleProvider("signup", povider);
+  };
 
   return {
     SignUpInput,
